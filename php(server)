@@ -1,0 +1,23 @@
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $note = trim($_POST['note']);
+    $filePath = "notes.json";
+    // Read existing notes
+    $currentData = file_get_contents($filePath);
+    $arrayData = json_decode($currentData, true);
+    if (!is_array($arrayData)) {
+        $arrayData = [];
+    }
+    // Add new note
+    $arrayData[] = $note;
+    // Save back to the file
+    if(file_put_contents($filePath, json_encode($arrayData))) {
+        echo 'success';
+    } else {
+        echo 'error';
+    }
+} else {
+    echo 'error';
+}
+?>
+
